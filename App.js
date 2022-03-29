@@ -7,6 +7,7 @@ export default function App() {
   const [objUser, setObjUser] = useState({})
   const [listUsers, setListUsers] = useState({})
   const [organizations, setOrganizations] = useState({})
+  const [goBackHome, setGoBackHome] = useState(false)
 
   const getMyUser = () => {
     return fetch('https://api.github.com/users/witillan')
@@ -82,6 +83,7 @@ export default function App() {
           <Text
             style={[styles.text, styles.link, { padding: 2, }]}
             onPress={() => {
+              setGoBackHome(true)
               getOrganizations(objUser.login)
               setRoute('ListagemOrganization')
             }}>
@@ -172,7 +174,10 @@ export default function App() {
             keyExtractor={item => item.id}
           /> : <View style={styles.card}><Text>Não possui organizações</Text></View>}
         <View style={{ marginTop: 20, marginBottom: 20 }}>
-          <Button title='Voltar' onPress={() => setRoute('ListagemUsuarios')} />
+          <Button title='Voltar' onPress={() => {
+            setRoute(goBackHome ? 'Home' : 'ListagemUsuarios')
+            setGoBackHome(false)
+          }} />
         </View>
       </SafeAreaView>
     )
