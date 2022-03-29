@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "userGitHub",
+    "slug": "userGitHub",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
