@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Linking, StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native';
+import { Button, Linking, StyleSheet, Text, View, SafeAreaView, FlatList, Image } from 'react-native';
 
 export default function App() {
 
@@ -7,6 +7,7 @@ export default function App() {
   const [objUser, setObjUser] = useState({})
   const [listUsers, setListUsers] = useState({})
   const [organizations, setOrganizations] = useState({})
+  const [membersOrganizations, setMembersOrganizations] = useState({})
   const [goBackHome, setGoBackHome] = useState(false)
 
   const getMyUser = () => {
@@ -45,6 +46,18 @@ export default function App() {
       })
   }
 
+  const getMembersOrganizations = (login) => {
+    return fetch(`https://api.github.com/orgs/${login}/members`)
+      .then((resposta) => resposta.json())
+      .then((r) => {
+        setMembersOrganizations(r)
+        return r
+      })
+      .catch((error) => {
+        alert(`Ocorreu um erro ${error.text()} ao buscar o usuário na API do "Github"`);
+      })
+  }
+
   useEffect(() => {
     getMyUser()
     getUsers()
@@ -70,7 +83,7 @@ export default function App() {
         <View style={styles.card}>
           <Text style={[styles.textBold, { fontSize: 25 }]}>Informações do Usuário</Text>
           <View style={[styles.viewText, { marginTop: 20 }]}>
-            <img alt='image_user' style={{ width: 70, borderRadius: '100%' }} src={`${objUser.avatar_url}.png`} />
+            <Image style={{ width: 70, height: 70, borderRadius: '100%' }} source={{ uri: `${objUser.avatar_url}` }} />
           </View>
           <View style={[styles.viewText, { marginTop: 20 }]}>
             <Text style={styles.textBold}>Usuário: </Text>
